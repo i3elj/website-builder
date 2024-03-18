@@ -97,4 +97,6 @@ aside {
     border: 1px solid black;
     margin: .5rem;
     background-color: lightcoral;
+    resize: both;
+    overflow: hidden;
 }
