@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+        <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+    </head>
+
+    <body>
+        <h1>Draggable elements</h1>
+
+        <div class="row">
+            <aside>
+                <h2>Elements</h2>
+
+                <div id="__elems-list">
+                    <div class="__elems-container">
+                        <div id="div__og-drag"
+                             class="__og-drag"
+                             draggable="true"></div>
+                        <span>div</span>
+                    </div>
+
+                    <div class="__elems-container">
+                        <section id="section__og-drag"
+                                 class="__og-drag"
+                                 draggable="true"></section>
+                        <span>section</span>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="__tg-body __droppable">
+
+            </main>
+        </div>
+    </body>
+
+    <script type="text/javascript" src="script.js"></script>
+</html>
