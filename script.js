@@ -1,54 +1,28 @@
-const og_elems_id_list = Array.from(htmx.findAll('.__og-drag'))
-                                 .map(e => e.id)
+import './global.js'
+import * as drag from './drag.js'
+import * as html from './html_manipulation.js'
+import { contextmenu } from './context-menu.js'
 
 const body_observer = new MutationObserver(() => {
     htmx.findAll('.__droppable').forEach(element => {
-        element.ondragstart = event => {
-            console.log('configuring drag start')
-            event.dataTransfer.clearData()
-            event.dataTransfer.setData('text/plain', event.target.id)
-        }
-        element.ondragenter = event => {
-            event.preventDefault()
-            event.target.classList.add('__item-hovered')
-        }
-        element.ondragleave = event => {
-            event.preventDefault()
-            event.target.classList.remove('__item-hovered')
-        }
-        element.ondragover = event => event.preventDefault()
-        element.ondrop = event => {
-            event.stopPropagation()
-            event.target.classList.remove('__item-hovered')
-            console.log('starting drop event')
-            const emitter_id = event.dataTransfer.getData('text/plain')
-            console.log(emitter_id)
-            const emitter = htmx.find('#' + emitter_id)
-
-            if (og_elems_id_list.includes(emitter_id)) {
-                const clone = create_clone_from_emmitter(emitter)
-                console.log(`clonning ${emitter_id}:(${clone.id}) to ${element.id}`)
-                element.appendChild(clone)
-            } else {
-                console.log(`moving ${emitter_id} to ${element.id}`)
-                element.appendChild(emitter)
-            }
-        }
+        element.ondragstart = drag.start
+        element.ondragenter = drag.enter
+        element.ondragleave = drag.leave
+        element.ondragover  = drag.over
+        element.ondrop      = drag.drop
+        element.oncontextmenu = contextmenu
     })
 })
 
 const drop_root = htmx.find('#__tg-body')
-body_observer.observe(htmx.find('body'), {
-    subtree: true,
-    childList: true,
-})
+body_observer.observe(htmx.find('body'), {subtree: true, childList: true,})
 
 // configuration of every original draggable element
 htmx.findAll('.__og-drag').forEach(og_drag => {
     og_drag.ondragstart = event => {
         console.log('configuring ROOT drag start')
         event.dataTransfer.clearData()
-        event.dataTransfer.setData('text/plain', og_drag.id)
+        event.dataTransfer.setData('text/plain', html.get_id(og_drag))
     }
 })
 
@@ -67,27 +41,27 @@ drop_root.ondrop = event => {
     event.target.classList.remove('__item-hovered')
 
     const emitter_id = event.dataTransfer.getData('text/plain')
-    const emitter = htmx.find('#' + emitter_id)
+    const emitter = htmx.find('.' + emitter_id)
 
-    if (og_elems_id_list.includes(emitter_id)) {
+    if (OGLIST.includes(emitter_id)) {
         const clone = create_clone_from_emmitter(emitter)
         drop_root.appendChild(clone)
     } else {
-        console.log('moving element to root')
+        console.log(`moving ${get_id(emitter)} to root`)
         drop_root.appendChild(emitter)
     }
 }
 
 function create_clone_from_emmitter(element)
 {
-    const tag_name = element.id.split('__')[0]
+    const tag_name = element.classList[0].split('__')[0]
     const clone = document.createElement(tag_name)
     clone.classList.add('__item')
     clone.classList.add('__droppable')
     clone.setAttribute('draggable', true)
-    clone.id = create_unique_id()
+    html.add_id(clone, html.create_unique_id())
 
-    switch (clone.tagName.toLowerCase()) {
+    switch (html.get_tag_name(clone)) {
         case 'p':
             clone.innerHTML = 'Insert Text'
             clone.onblur = e => clone.setAttribute('contenteditable', false)
@@ -110,15 +84,4 @@ function create_clone_from_emmitter(element)
     }
 
     return clone
-}
-
-function create_unique_id()
-{
-    const id_list = Array.from(htmx.findAll('.__item'))
-                         .map(e => e.id.split('-')[1])
-
-    if (id_list.length == 0)
-        return '__item-1'
-
-    return '__item-' + (Math.max(...id_list) + 1)
 }

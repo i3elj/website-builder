@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     min-width: 0;
+    font-family: 'Roboto Condensed';
 }
 
 body {
@@ -84,4 +87,54 @@ section.__item {
     border-color: rgb(100,100,255) !important;
     background-color: rgba(100,100,255,0.08) !important;
     transition: 100ms;
+}
+
+#__ctx-menu-wrapper {
+    opacity: 0;
+    position: absolute;
+    min-width: 100vw;
+    min-height: 100vh;
+    z-index: -1;
+}
+
+#__ctx-menu {
+    position: absolute;
+    top: 40vw;
+    right: 40vw;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    background-color: #fafafa;
+    border: 1px solid black;
+    box-shadow: -3px 3px 7px 0 rgba(0,0,0,0.15);
+}
+
+#__ctx-menu_tag {
+    font-family: monospace;
+    position: absolute;
+    top: -3rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+#__ctx-menu hr {
+    padding: 0 .5rem;
+    border: none;
+    border-top: 1px solid black;
+}
+
+#__ctx-menu p {
+    padding: .5rem 1rem;
+    transition: 200ms;
+    cursor: pointer;
+}
+
+#__ctx-menu p:hover {
+    background-color: #f0f0f0;
+}
+
+#__ctx-menu p i {
+    font-size: 1.25rem;
+    margin-right: 1rem;
 }

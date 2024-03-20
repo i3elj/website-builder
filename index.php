@@ -19,8 +19,7 @@ require_once './elemslist.php';
                 <div id="__elems-list">
                     <?php foreach ($tags as $tag) : ?>
                         <div class="__elems-container">
-                            <div id="<?= $tag['tag-name'] ?>__og-drag"
-                                 class="__og-drag"
+                            <div class="<?= $tag['tag-name'] ?>__og-drag __og-drag"
                                  draggable="true"></div>
                             <span><?= $tag['display-name'] ?></span>
                         </div>
@@ -30,7 +29,17 @@ require_once './elemslist.php';
 
             <main id="__tg-body"></main>
         </div>
+
+        <div id="__ctx-menu-wrapper">
+            <div id="__ctx-menu">
+                <p id="__ctx-menu_tag">None</p>
+                <p><i>󰆴</i>Delete</p>
+                <hr/>
+                <p><i></i>Edit HTML</p>
+                <p><i>󰃣</i>Edit Style</p>
+            </div>
+        </div>
     </body>
 
-    <script type="text/javascript" src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </html>
