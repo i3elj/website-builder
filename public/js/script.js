@@ -44,44 +44,10 @@ drop_root.ondrop = event => {
     const emitter = htmx.find('.' + emitter_id)
 
     if (OGLIST.includes(emitter_id)) {
-        const clone = create_clone_from_emmitter(emitter)
+        const clone = html.clone(emitter)
         drop_root.appendChild(clone)
     } else {
         console.log(`moving ${get_id(emitter)} to root`)
         drop_root.appendChild(emitter)
     }
-}
-
-function create_clone_from_emmitter(element)
-{
-    const tag_name = element.classList[0].split('__')[0]
-    const clone = document.createElement(tag_name)
-    clone.classList.add('__item')
-    clone.classList.add('__droppable')
-    clone.setAttribute('draggable', true)
-    html.add_id(clone, html.create_unique_id())
-
-    switch (html.get_tag_name(clone)) {
-        case 'p':
-            clone.innerHTML = 'Insert Text'
-            clone.onblur = e => clone.setAttribute('contenteditable', false)
-            clone.ondblclick = e => {
-                clone.setAttribute('contenteditable', true)
-                clone.focus()
-                window.getSelection().selectAllChildren(clone)
-            }
-            setTimeout(() => {
-                clone.setAttribute('contenteditable', true)
-                clone.focus()
-                window.getSelection().selectAllChildren(clone)
-            }, 100)
-            break;
-
-        case 'textarea':
-            clone.style.resize = 'both'
-            clone.removeAttribute('disabled')
-            break;
-    }
-
-    return clone
 }

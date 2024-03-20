@@ -28,7 +28,7 @@ export function drop(event) {
     const emitter = htmx.find('.' + emitter_id)
 
     if (OGLIST.includes(emitter_id)) {
-        const clone = create_clone_from_emmitter(emitter)
+        const clone = html.clone(emitter)
         console.log(`clonning ${emitter_id}:(${clone.id}) to ${element.id}`)
         element.appendChild(clone)
     } else {

@@ -4,7 +4,7 @@ require_once './elemslist.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="/public/css/style.css" type="text/css" media="screen" />
         <script src="https://unpkg.com/htmx.org@1.9.11"></script>
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     </head>
@@ -41,5 +41,5 @@ require_once './elemslist.php';
         </div>
     </body>
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="/public/js/script.js"></script>
 </html>
