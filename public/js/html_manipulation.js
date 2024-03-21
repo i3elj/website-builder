@@ -31,7 +31,9 @@ export function clone(element)
     add_id(clone, create_unique_id())
 
     switch (get_tag_name(clone)) {
+        case 'h1':
         case 'p':
+            console.log('hi?')
             clone.innerHTML = 'Insert Text'
             clone.onblur = e => clone.setAttribute('contenteditable', false)
             clone.ondblclick = e => {
