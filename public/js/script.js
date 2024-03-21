@@ -47,7 +47,7 @@ drop_root.ondrop = event => {
         const clone = html.clone(emitter)
         drop_root.appendChild(clone)
     } else {
-        console.log(`moving ${get_id(emitter)} to root`)
+        console.log(`moving ${html.get_id(emitter)} to root`)
         drop_root.appendChild(emitter)
     }
 }
