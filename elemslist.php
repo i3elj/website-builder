@@ -13,6 +13,10 @@ $tags = [
         'display-name' => 'paragraph'
     ],
     [
+        'tag-name' => 'h1',
+        'display-name' => 'header 1'
+    ],
+    [
         'tag-name' => 'textarea',
         'display-name' => 'textarea'
     ],
