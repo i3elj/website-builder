@@ -1,6 +1,5 @@
-<?php
-require_once './elemslist.php';
-?>
+<?php require_once './elemslist.php'; ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,6 +16,7 @@ require_once './elemslist.php';
                 <h2>Elements</h2>
 
                 <div id="__elems-list">
+
                     <?php foreach ($tags as $tag) : ?>
                         <div class="__elems-container">
                             <div class="<?= $tag['tag-name'] ?>__og-drag __og-drag"
@@ -24,6 +24,7 @@ require_once './elemslist.php';
                             <span><?= $tag['display-name'] ?></span>
                         </div>
                     <?php endforeach ?>
+
                 </div>
             </aside>
 
@@ -33,10 +34,10 @@ require_once './elemslist.php';
         <div id="__ctx-menu-wrapper">
             <div id="__ctx-menu">
                 <p id="__ctx-menu_tag">None</p>
-                <p><i>󰆴</i>Delete</p>
+                <button><i>󰆴</i>Delete</button>
                 <hr/>
-                <p><i></i>Edit HTML</p>
-                <p><i>󰃣</i>Edit Style</p>
+                <button><i></i>Edit HTML</button>
+                <button><i>󰃣</i>Edit Style</button>
             </div>
         </div>
     </body>
