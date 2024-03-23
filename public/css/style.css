@@ -92,12 +92,11 @@ section.__item {
 	transition: 100ms;
 }
 
-#__ctx-menu-wrapper {
-	opacity: 0;
+.__invisible-bg {
+	display: none;
 	position: absolute;
 	min-width: 100vw;
 	min-height: 100vh;
-	z-index: -1;
 }
 
 #__ctx-menu {
@@ -146,4 +145,55 @@ section.__item {
 #__ctx-menu button i {
 	font-size: 1.25rem;
 	margin-right: 1rem;
+}
+
+#__ace-editors-wrapper {
+	display: none;
+	place-items: center;
+	place-content: center;
+}
+
+.__ace-editor-lang-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	width: 85vw;
+	height: 70vh;
+}
+
+.__ace-editor-titlebar {
+	background-color: gray;
+	border-radius: .25rem;
+	display: flex;
+	place-content: space-between;
+	padding: .25rem;
+	border: 2px solid black;
+	box-shadow: -3px 8px 19px 3px rgba(0,0,0,0.3);
+	gap: .25rem;
+	width: fit-content;
+}
+.__ace-editor-btn {
+	padding: .25rem;
+	border: 1px solid gray;
+}
+
+.__ace-editor-save-btn:hover {
+	background-color: darkgreen;
+}
+
+.__ace-editor-close-btn:hover {
+	background-color: darkred;
+}
+
+.__ace-editor {
+	flex: 1;
+	border: 3px solid black;
+	border-radius: .5rem;
+	box-shadow: -3px 8px 19px 3px rgba(0,0,0,0.3);
+	overflow: hidden;
+}
+
+.__ace-editor * {
+	font-family: Iosevka NF !important;
+	font-size: 18pt !important;
 }
