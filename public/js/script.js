@@ -2,6 +2,7 @@ import './global.js'
 import * as drag from './drag.js'
 import * as html from './html_manipulation.js'
 import { contextmenu } from './context-menu.js'
+import * as editors from './editors.js'
 
 const body_observer = new MutationObserver((records, observer) => {
 	const addedNode = records[0].addedNodes[0] ?? null

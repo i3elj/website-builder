@@ -1,11 +1,13 @@
 import * as html from './html_manipulation.js'
+import * as editors from './editors.js'
 
 const menu_wrapper = htmx.find('#__ctx-menu-wrapper')
 const menu = htmx.find('#__ctx-menu')
 
 menu_wrapper.onmousedown = function(event) {
-	if (event.target == this)
+	if (event.target == this) {
 		deactivateMenu()
+	}
 }
 
 export function contextmenu(event)
@@ -26,15 +28,12 @@ export function contextmenu(event)
 	menu.style.left = `${left}px`
 	menu.style.top = `${top}px`
 
-	console.log(c_x, c_y, m_width, m_height, placement, top, left)
-
 	activateMenu(event)
 }
 
 function activateMenu(event)
 {
-	menu_wrapper.style.opacity = 1
-	menu_wrapper.style.zIndex = 2
+	menu_wrapper.style.display = 'flex';
 	htmx.find('#__ctx-menu_tag').innerText = html.get_tag_name(event.target)
 
 	const [
@@ -51,12 +50,13 @@ function activateMenu(event)
 	html_btn.onclick = () => {
 		const id = html.get_id(event.target)
 		const element = htmx.find('.' + id)
-		console.log(element.outerHTML)
+		editors.html(element)
+		deactivateMenu()
 	}
 	styles_btn.onclick = function(event) {}
 }
 
-function deactivateMenu() {
-	menu_wrapper.style.opacity = 0
-	menu_wrapper.style.zIndex = -1
+function deactivateMenu()
+{
+	menu_wrapper.style.display = 'none'
 }

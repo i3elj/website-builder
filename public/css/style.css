@@ -23,7 +23,7 @@ main * {
 	width: fit-content;
 }
 
-.__editor {
+.__main {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -99,6 +99,10 @@ section.__item {
 	min-height: 100vh;
 }
 
+#__ctx-menu-wrapper {
+	z-index: 1;
+}
+
 #__ctx-menu {
 	position: absolute;
 	top: 40vw;
@@ -147,53 +151,56 @@ section.__item {
 	margin-right: 1rem;
 }
 
-#__ace-editors-wrapper {
+#__editors-wrapper {
 	display: none;
 	place-items: center;
 	place-content: center;
+	z-index: 2;
 }
 
-.__ace-editor-lang-wrapper {
-	display: flex;
+.__editor-wrapper {
+	display: none;
 	flex-direction: column;
 	gap: .5rem;
 	width: 85vw;
 	height: 70vh;
 }
 
-.__ace-editor-titlebar {
-	background-color: gray;
-	border-radius: .25rem;
+.__editor-titlebar {
 	display: flex;
 	place-content: space-between;
-	padding: .25rem;
-	border: 2px solid black;
-	box-shadow: -3px 8px 19px 3px rgba(0,0,0,0.3);
+	place-items: center;
 	gap: .25rem;
-	width: fit-content;
-}
-.__ace-editor-btn {
-	padding: .25rem;
-	border: 1px solid gray;
 }
 
-.__ace-editor-save-btn:hover {
-	background-color: darkgreen;
+.__editor-titlebar > * {
+	border: 1px solid black;
+	border-radius: .25rem;
+	background-color: #fafafa;
+	box-shadow: -3px 8px 19px 3px rgba(0,0,0,0.3);
+	padding: .4rem;
+}
+.__editor-titlebar > p {
+	padding: .5rem 1rem;
+	font-family: monospace;
 }
 
-.__ace-editor-close-btn:hover {
-	background-color: darkred;
-}
-
-.__ace-editor {
+.__editor {
 	flex: 1;
-	border: 3px solid black;
+	width: 100%;
+	border: 1px solid black;
 	border-radius: .5rem;
 	box-shadow: -3px 8px 19px 3px rgba(0,0,0,0.3);
 	overflow: hidden;
 }
 
-.__ace-editor * {
+.__editor * {
 	font-family: Iosevka NF !important;
 	font-size: 18pt !important;
+}
+
+.__editor-btn {
+	padding: .25rem;
+	border: 1px solid gray;
+	border-radius: .25rem;
 }

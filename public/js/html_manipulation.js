@@ -53,3 +53,11 @@ export function clone(element)
 
 	return clone
 }
+
+export function str_to_html(html_string)
+{
+	const temp = document.createElement('div')
+	temp.innerHTML = html_string.trim()
+	console.log(temp.childNodes[0])
+	return temp.childNodes[0]
+}
