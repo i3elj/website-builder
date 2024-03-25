@@ -6,6 +6,7 @@ import * as editors from './editors.js'
 
 const body_observer = new MutationObserver((records, observer) => {
 	const addedNode = records[0].addedNodes[0] ?? null
+
 	if (addedNode != null) {
 		addedNode.ondragstart	= drag.start
 		addedNode.ondragenter	= drag.enter
