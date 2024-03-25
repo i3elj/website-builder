@@ -22,8 +22,11 @@
 
 					<?php foreach ($tags as $tag) : ?>
 						<div class="__elems-container">
-							<div class="<?= $tag['tag-name'] ?>__og-drag __og-drag"
-								 draggable="true"></div>
+							<div
+								class="__og-drag"
+								draggable="true"
+								data-id="<?= $tag['tag-name'] ?>__og-drag"
+							></div>
 							<span><?= $tag['display-name'] ?></span>
 						</div>
 					<?php endforeach ?>
@@ -41,6 +44,7 @@
 				<hr/>
 				<button><i></i>Edit HTML</button>
 				<button><i>󰃣</i>Edit Style</button>
+				<button><i>󰌖</i>Add class</button>
 			</div>
 		</div>
 
@@ -77,6 +81,13 @@
 				</div>
 
 				<div id="__css" class="__editor"></div>
+			</div>
+		</div>
+
+		<div id="__add-class-wrapper" class="__invisible-bg">
+			<div>
+				<input type="text" placeholder="type your class name" />
+				<button>Add</button>
 			</div>
 		</div>
 	</body>

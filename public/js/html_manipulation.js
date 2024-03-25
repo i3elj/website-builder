@@ -1,18 +1,12 @@
 export function create_unique_id()
 {
 	const id_list = Array.from(htmx.findAll('.__item'))
-						 .map(e => get_id(e).split('-')[1])
+						 .map(e => e.dataset.id.split('-')[1])
 
 	if (id_list.length == 0)
 		return '__item-1'
 
 	return '__item-' + (Math.max(...id_list) + 1)
-}
-
-export function get_id(elem) { return elem.classList[0] }
-
-export function add_id(elem, id) {
-	elem.classList = [id].concat([...elem.classList]).join(' ')
 }
 
 export function get_tag_name(elem) {
@@ -21,12 +15,12 @@ export function get_tag_name(elem) {
 
 export function clone(element)
 {
-	const tag_name = get_id(element).split('__')[0]
+	const tag_name = element.dataset.id.split('__')[0]
 	const clone = document.createElement(tag_name)
 	clone.classList.add('__item')
 	clone.classList.add('__droppable')
 	clone.setAttribute('draggable', true)
-	add_id(clone, create_unique_id())
+	clone.dataset.id = create_unique_id()
 
 	switch (get_tag_name(clone)) {
 		case 'h1':

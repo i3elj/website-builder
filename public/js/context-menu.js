@@ -36,24 +36,52 @@ function activateMenu(event)
 	menu_wrapper.style.display = 'flex';
 	htmx.find('#__ctx-menu_tag').innerText = html.get_tag_name(event.target)
 
-	const [
-		delete_btn,
-		html_btn,
-		styles_btn
+	const [ delete_btn
+		  , html_btn
+		  , styles_btn
+		  , add_class_btn
 	] = Array.from(menu.children).filter(e => e.tagName.toLowerCase() == 'button')
 
 	delete_btn.onclick = () => {
-		const id = html.get_id(event.target)
-		htmx.find('.' + id).remove()
+		const id = event.target.dataset.id
+		htmx.find(`[data-id="${id}"]`).remove()
 		deactivateMenu()
 	}
+
 	html_btn.onclick = () => {
-		const id = html.get_id(event.target)
-		const element = htmx.find('.' + id)
+		const id = event.target.dataset.id
+		const element = htmx.find(`[data-id="${id}"`)
 		editors.html(element)
 		deactivateMenu()
 	}
-	styles_btn.onclick = function(event) {}
+
+	styles_btn.onclick = () => {
+		const id = event.target.dataset.id
+		const element = htmx.find(`[data-id="${id}"`)
+		const classlist = Array.from(element.classList)
+							   .filter(c => !c.startsWith('__'))
+
+		if (classlist.length == 0) {
+			// replace this with a custom pop-up system
+			alert("You should add a css class before styling this element")
+			return
+		}
+	}
+
+	add_class_btn.onclick = () => {
+		const wrapper = htmx.find('#__add-class-wrapper')
+		wrapper.style.display = 'flex'
+		wrapper.onmousedown = function(event) {
+			if (event.target == this) {
+				wrapper.style.display = 'none'
+			}
+		}
+
+		const input = htmx.find('#__add-class-wrapper input')
+		input.focus()
+
+		deactivateMenu()
+	}
 }
 
 function deactivateMenu()

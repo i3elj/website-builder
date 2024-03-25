@@ -25,7 +25,7 @@ htmx.findAll('.__og-drag').forEach(og_drag => {
 	og_drag.ondragstart = event => {
 		console.log('configuring ROOT drag start')
 		event.dataTransfer.clearData()
-		event.dataTransfer.setData('text/plain', html.get_id(og_drag))
+		event.dataTransfer.setData('text/plain', og_drag.dataset.id)
 	}
 })
 
@@ -44,13 +44,13 @@ drop_root.ondrop = event => {
 	event.target.classList.remove('__item-hovered')
 
 	const emitter_id = event.dataTransfer.getData('text/plain')
-	const emitter = htmx.find('.' + emitter_id)
+	const emitter = htmx.find(`[data-id="${emitter_id}"]`)
 
 	if (OGLIST.includes(emitter_id)) {
 		const clone = html.clone(emitter)
 		drop_root.appendChild(clone)
 	} else {
-		console.log(`moving ${html.get_id(emitter)} to root`)
+		console.log(`moving ${emitter.dataset.id} to root`)
 		drop_root.appendChild(emitter)
 	}
 }

@@ -204,3 +204,29 @@ section.__item {
 	border: 1px solid gray;
 	border-radius: .25rem;
 }
+
+#__add-class-wrapper {
+	place-content: center;
+	place-items: center;
+}
+
+#__add-class-wrapper div {
+	padding: .5rem;
+	border: 1px solid;
+	border-radius: .25rem;
+	background-color: #f0f0f0;
+	box-shadow: -3px 8px 10px 0px rgba(0,0,0,0.15);
+}
+
+#__add-class-wrapper input {
+	border: none;
+	padding: .5rem;
+	font-size: 1rem;
+	background: none;
+	outline: none;
+	color: black;
+}
+
+#__add-class-wrapper button {
+	padding: .5rem;
+}
