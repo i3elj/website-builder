@@ -35,12 +35,14 @@ main * {
 aside {
 	display: flex;
 	flex-direction: column;
-	background-color: #fafafa;
-	height: 90vh;
-	padding: 2rem;
 	gap: 1rem;
+	height: 90vh;
+	min-width: 10rem;
+	padding: 2rem;
 	border: 1px solid #787878;
 	border-radius: .5rem;
+	background-color: #fafafa;
+	overflow-y: scroll;
 }
 
 #__tg-body {
@@ -117,11 +119,15 @@ section.__item {
 
 #__ctx-menu_tag {
 	font-family: monospace;
+	text-wrap: nowrap;
+	text-overflow: ellipsis;
+	max-width: 100%;
 	position: absolute;
 	top: -3rem;
 	border: 1px solid black;
 	border-radius: 4px;
 	background-color: #fafafa;
+	overflow: hidden;
 }
 
 #__ctx-menu hr {
@@ -205,12 +211,14 @@ section.__item {
 	border-radius: .25rem;
 }
 
-#__add-class-wrapper {
+#__add-class-wrapper,
+#__add-id-wrapper {
 	place-content: center;
 	place-items: center;
 }
 
-#__add-class-wrapper div {
+#__add-class-wrapper form,
+#__add-id-wrapper form {
 	padding: .5rem;
 	border: 1px solid;
 	border-radius: .25rem;
@@ -218,7 +226,8 @@ section.__item {
 	box-shadow: -3px 8px 10px 0px rgba(0,0,0,0.15);
 }
 
-#__add-class-wrapper input {
+#__add-class-wrapper input,
+#__add-id-wrapper input {
 	border: none;
 	padding: .5rem;
 	font-size: 1rem;
@@ -227,6 +236,7 @@ section.__item {
 	color: black;
 }
 
-#__add-class-wrapper button {
+#__add-class-wrapper button,
+#__add-id-wrapper button {
 	padding: .5rem;
 }

@@ -5,13 +5,26 @@
 	<head>
 		<link rel="stylesheet" href="/public/css/style.css" type="text/css" media="screen" />
 		<script src="https://unpkg.com/htmx.org@1.9.11"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 		<script src="https://unpkg.com/prettier@3.2.5/standalone.js"></script>
 		<script src="https://unpkg.com/prettier@3.2.5/plugins/html.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.8/ace.js"></script>
+		<script src="https://unpkg.com/prettier@3.2.5/plugins/postcss.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.8/ace.min.js"></script>
 	</head>
 
 	<body>
+		<!-- this should be used for every class-based css.
+			 Every id-based css should be a separate <style/> for
+			 that element/component all of them being added
+			 after the beginning of the <body/> tag -->
+		<style id="__user-global-css">
+		 .item-1 {
+			 background-color: red;
+		 }
+		 .item-1 {
+			 background-color: blue;
+		 }
+		</style>
+
 		<h1>Draggable elements</h1>
 
 		<div class="__main">
@@ -44,7 +57,8 @@
 				<hr/>
 				<button><i></i>Edit HTML</button>
 				<button><i>󰃣</i>Edit Style</button>
-				<button><i>󰌖</i>Add class</button>
+				<button><i></i>Add ID</button>
+				<button><i>󰌖</i>Add Class</button>
 			</div>
 		</div>
 
@@ -85,10 +99,17 @@
 		</div>
 
 		<div id="__add-class-wrapper" class="__invisible-bg">
-			<div>
+			<form>
 				<input type="text" placeholder="type your class name" />
-				<button>Add</button>
-			</div>
+				<button type="submit">Add</button>
+			</form>
+		</div>
+
+		<div id="__add-id-wrapper" class="__invisible-bg">
+			<form>
+				<input type="text" placeholder="type some id" />
+				<button type="submit">Add</button>
+			</form>
 		</div>
 	</body>
 
