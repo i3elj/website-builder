@@ -1,5 +1,4 @@
 # Website Builder
----
 A simple website builder using vanilla html, css and php.
 
 ## Usage
