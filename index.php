@@ -16,14 +16,7 @@
 			 Every id-based css should be a separate <style/> for
 			 that element/component all of them being added
 			 after the beginning of the <body/> tag -->
-		<style id="__user-global-css">
-		 .item-1 {
-			 background-color: red;
-		 }
-		 .item-1 {
-			 background-color: blue;
-		 }
-		</style>
+		<style id="__user-global-css"></style>
 
 		<h1>Draggable elements</h1>
 
