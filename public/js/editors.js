@@ -53,11 +53,10 @@ export function css(element)
         fontFamily: 'Iosevka NF',
         fontSize: '18pt'
     });
+    const element_style_tag = find_or_create_style(element.dataset.id);
 
     // activation step
     (async () => {
-        const el_style_tag = find_or_create_style(element.dataset.id);
-
         const global_style_tag = htmx.find('#__user-global-css');
         const global_styles = get_rules(
             global_style_tag,
@@ -65,17 +64,20 @@ export function css(element)
                  .filter(c => !c.startsWith('__'))
         );
 
-        const code =
-            "\n/*- global styles -*/"
-            + global_styles
-            + "\n\n"
-            + "/*- element specific styles -*/"
-            + el_style_tag.textContent;
+        const code = `
+            /*- global styles -*/
+            ${global_styles}
+            /*- end -*/
 
-            const formatted_code = await prettier.format(code, {
-                parser: 'css',
-                plugins: prettierPlugins
-            });
+            /*- element styles -*/
+            ${element_style_tag.textContent}
+            /*- end -*/
+        `;
+
+        const formatted_code = await prettier.format(code, {
+            parser: 'css',
+            plugins: prettierPlugins
+        });
 
         const css_session = ace.createEditSession(formatted_code);
 
@@ -86,12 +88,30 @@ export function css(element)
         css_editor_wrapper.style.display = 'flex';
 
         const title = htmx.find('#__css-titlebar p');
-        title.innerText = get_tag_name(element);
-    })()
+
+        title.innerText = get_tag_name(element)
+
+        if (element.id != "")
+            title.innerText += " #" + element.id;
+
+        var classlist = Array.from(element.classList)
+                             .filter(c => !c.startsWith("__"));
+        if (classlist.length != 0)
+            title.innerText += " ." + classlist.join(" .");
+        })()
 
     htmx.find('#__css-close-btn').onclick = deactivate_editors;
     htmx.find('#__css-save-btn').onclick = () => {
-        element.textContent = editor.getValue();
+        const code = editor.getValue();
+
+        const regex = /\/\*-.*([\s\S]*?)\/\*- end -\*\//gm;
+        const matches = [...code.matchAll(regex)];
+
+        const global_code = matches[0][1];
+        const local_code = matches[1][1];
+
+        htmx.find('#__user-global-css').innerHTML = global_code;
+        element_style_tag.innerHTML = local_code;
     }
 }
 

@@ -80,10 +80,6 @@ aside {
 .__item {
     padding: 1rem;
     background-color: white;
-}
-
-div.__item,
-section.__item {
     border: 1px solid black;
 }
 
@@ -187,8 +183,10 @@ section.__item {
     padding: .4rem;
 }
 .__editor-titlebar > p {
-    padding: .5rem 1rem;
+    padding: .6rem 1rem;
     font-family: monospace;
+    overflow-x: scroll;
+    text-wrap: nowrap;
 }
 
 .__editor {

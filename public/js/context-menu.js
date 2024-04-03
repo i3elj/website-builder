@@ -66,13 +66,14 @@ function activateMenu(event)
         const classlist = Array.from(element.classList)
                                .filter(c => !c.startsWith('__'))
 
-        if (classlist.length == 0) {
+        if (classlist.length == 0 && element.id == "") {
             // replace this with a custom pop-up system
             alert("You should add a css class before styling this element")
             return
         }
 
         editors.css(element)
+        deactivateMenu()
     }
 
     add_id_btn.onclick = () => {
