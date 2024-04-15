@@ -9,6 +9,10 @@
         <script src="https://unpkg.com/prettier@3.2.5/plugins/html.js"></script>
         <script src="https://unpkg.com/prettier@3.2.5/plugins/postcss.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.8/ace.min.js"></script>
+        <!-- fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     </head>
 
     <body>
@@ -46,12 +50,12 @@
         <div id="__ctx-menu-wrapper" class="__invisible-bg">
             <div id="__ctx-menu">
                 <p id="__ctx-menu_tag">None</p>
-                <button><i>󰆴</i>Delete</button>
+                <button><img src="/public/assets/delete-icon.svg">Delete</button>
                 <hr/>
-                <button><i></i>Edit HTML</button>
-                <button><i>󰃣</i>Edit Style</button>
-                <button><i></i>Add ID</button>
-                <button><i>󰌖</i>Add Class</button>
+                <button><img src="/public/assets/code-icon.svg">Edit HTML</button>
+                <button><img src="/public/assets/brush-icon.svg">Edit Style</button>
+                <button><img src="/public/assets/tag-icon.svg">Add ID</button>
+                <button><img src="/public/assets/label-icon.svg">Add Class</button>
             </div>
         </div>
 

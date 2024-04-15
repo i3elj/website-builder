@@ -138,6 +138,8 @@ aside {
 }
 
 #__ctx-menu button {
+    display: flex;
+    place-items: center;
     text-align: left;
     border: none;
     background: none;
@@ -148,7 +150,7 @@ aside {
     background-color: #f0f0f0;
 }
 
-#__ctx-menu button i {
+#__ctx-menu button img {
     font-size: 1.25rem;
     margin-right: 1rem;
 }
@@ -199,7 +201,7 @@ aside {
 }
 
 .__editor * {
-    font-family: Iosevka NF !important;
+    font-family: "IBM Plex Mono" !important;
     font-size: 18pt !important;
 }
 

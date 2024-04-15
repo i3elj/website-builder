@@ -7,15 +7,16 @@ const css_editor_wrapper = htmx.find('#__css-wrapper');
 // const css_close_btn = htmx.find('#__css-close-btn')
 // css_close_btn.onclick = deactivate_editors()
 
+const editor_options = {
+    theme: 'ace/theme/monokai',
+    fontFamily: 'IBM Plex Mono',
+    fontSize: '18pt'
+}
+
 export function html(element)
 {
     const editor = ace.edit('__html');
-
-    editor.setOptions({
-        theme: 'ace/theme/monokai',
-        fontFamily: 'Iosevka NF',
-        fontSize: '18pt'
-    });
+    editor.setOptions(editor_options);
 
     // activation step
     (async () => {
@@ -48,11 +49,8 @@ export function css(element)
     const beautify = ace.require('ace/ext/beautify');
     const editor = ace.edit('__css');
 
-    editor.setOptions({
-        theme: 'ace/theme/monokai',
-        fontFamily: 'Iosevka NF',
-        fontSize: '18pt'
-    });
+    editor.setOptions(editor_options);
+
     const element_style_tag = find_or_create_style(element.dataset.id);
 
     // activation step
