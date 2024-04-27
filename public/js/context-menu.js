@@ -1,82 +1,84 @@
 import * as html from './html_manipulation.js'
 import * as editors from './editors.js'
 
-const menu_wrapper = htmx.find('#__ctx-menu-wrapper')
-const menu = htmx.find('#__ctx-menu')
+const ctxm_wrapper = htmx.find('#__ctx-menu-wrapper');
+const ctxm_menu = htmx.find('#__ctx-menu');
+const ctxm_tag = htmx.find('#__ctx-menu_tag');
 
-menu_wrapper.onmousedown = function(event) {
-    if (event.target == this) {
-        deactivateMenu()
-    }
+ctxm_wrapper.onmousedown = function(e) {
+    if (e.target == this) deactivate_menu()
 }
 
-export function contextmenu(event)
+export function context_menu(event)
 {
     event.preventDefault()
 
-    const placement = {v: 0, h: 0}
-
-    const m_width = menu.offsetWidth // 1920
-    const m_height = menu.offsetHeight // 1080
+    const m_width = ctxm_menu.offsetWidth
+    const m_height = ctxm_menu.offsetHeight
 
     const c_x = event.pageX
     const c_y = event.pageY
 
-    var left = c_x + m_width >= window.innerWidth ? c_x - m_width : c_x
-    var top = c_y + m_height >= window.innerHeight ? c_y - m_height : c_y
+    var left = c_x + m_width >= window.innerWidth
+             ? c_x - m_width : c_x
 
-    menu.style.left = `${left}px`
-    menu.style.top = `${top}px`
+    var top = c_y + m_height >= window.innerHeight
+            ? c_y - m_height : c_y
 
-    activateMenu(event)
+    ctxm_menu.style.left = `${left}px`
+    ctxm_menu.style.top = `${top}px`
+
+    activate_menu(event)
 }
 
-function activateMenu(event)
+function activate_menu(event)
 {
-    menu_wrapper.style.display = 'flex';
+    ctxm_wrapper.style.display = 'flex';
 
-    htmx.find('#__ctx-menu_tag').innerText = html.get_tag_name(event.target) + (
-        event.target.id != "" ? ` #${event.target.id}` : ''
-    )
+    ctxm_tag.innerText = html.get_tag_name(event.target) +
+        (event.target.id != "" ? ` #${event.target.id}` : '')
 
-    const [ delete_btn
-          , html_btn
-          , styles_btn
-          , add_id_btn
-          , add_class_btn
-    ] = Array.from(menu.children)
+    const [
+        btn_delete,
+        btn_html,
+        btn_styles,
+        btn_add_id,
+        btn_add_class,
+    ] = Array.from(ctxm_menu.children)
              .filter(e => e.tagName.toLowerCase() == 'button')
 
-    delete_btn.onclick = () => {
+    btn_delete.onclick = () => {
         const id = event.target.dataset.id
         htmx.find(`[data-id="${id}"]`).remove()
-        deactivateMenu()
+        deactivate_menu()
     }
 
-    html_btn.onclick = () => {
+    btn_html.onclick = () => {
         const id = event.target.dataset.id
         const element = htmx.find(`[data-id="${id}"`)
         editors.html(element)
-        deactivateMenu()
+        deactivate_menu()
     }
 
-    styles_btn.onclick = () => {
+    btn_styles.onclick = () => {
         const id = event.target.dataset.id
         const element = htmx.find(`[data-id="${id}"`)
         const classlist = Array.from(element.classList)
                                .filter(c => !c.startsWith('__'))
 
-        if (classlist.length == 0 && element.id == "") {
-            // replace this with a custom pop-up system
-            alert("You should add a css class before styling this element")
+        const has_class = classlist.length != 0
+        const has_id = element.id != ""
+
+        if (has_class || has_id) {
+            editors.css(element)
+            deactivate_menu()
             return
         }
 
-        editors.css(element)
-        deactivateMenu()
+        alert("You should add a class or id before styling this element")
     }
 
-    add_id_btn.onclick = () => {
+    btn_add_id.onclick = () => {
         const wrapper = htmx.find('#__add-id-wrapper')
         wrapper.style.display = 'flex'
         wrapper.onmousedown = function(event) {
@@ -88,7 +90,7 @@ function activateMenu(event)
         form.onsubmit = (e) => {
             e.preventDefault()
             event.target.id = input.value
-            deactivateMenu()
+            deactivate_menu()
             wrapper.style.display = 'none'
         }
 
@@ -96,34 +98,32 @@ function activateMenu(event)
         input.value = event.target.id
         input.focus()
 
-        deactivateMenu()
+        deactivate_menu()
     }
 
-    add_class_btn.onclick = () => {
+    btn_add_class.onclick = () => {
         const wrapper = htmx.find('#__add-class-wrapper')
         wrapper.style.display = 'flex'
         wrapper.onmousedown = function(event) {
-            if (event.target == this) {
-                wrapper.style.display = 'none'
-            }
+            if (event.target == this) wrapper.style.display = 'none'
         }
 
         const form = htmx.find('#__add-class-wrapper form')
         form.onsubmit = (e) => {
             e.preventDefault()
             event.target.classList.add(input.value)
-            deactivateMenu()
+            deactivate_menu()
             wrapper.style.display = 'none'
         }
 
         const input = htmx.find('#__add-class-wrapper input')
         input.focus()
 
-        deactivateMenu()
+        deactivate_menu()
     }
 }
 
-function deactivateMenu()
+function deactivate_menu()
 {
-    menu_wrapper.style.display = 'none'
+    ctxm_wrapper.style.display = 'none'
 }

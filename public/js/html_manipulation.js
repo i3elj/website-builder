@@ -18,6 +18,7 @@ export function clone(element)
     const tag_name = element.dataset.id.split('__')[0]
     const clone = document.createElement(tag_name)
     clone.classList.add('__item')
+    clone.classList.add('__spacer')
     clone.classList.add('__droppable')
     clone.setAttribute('draggable', true)
     clone.dataset.id = create_unique_id()
@@ -52,6 +53,5 @@ export function str_to_html(html_string)
 {
     const temp = document.createElement('div')
     temp.innerHTML = html_string.trim()
-    console.log(temp.childNodes[0])
     return temp.childNodes[0]
 }

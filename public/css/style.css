@@ -23,6 +23,13 @@ main * {
     width: fit-content;
 }
 
+.__spacer {
+    padding: 1rem !important;
+    border: 1px dashed rgb(100,100,255) !important;
+    background-color: rgba(100,100,255,0.08) !important;
+    transition: 100ms;
+}
+
 .__main {
     display: flex;
     flex-direction: row;
@@ -78,16 +85,12 @@ aside {
 }
 
 .__item {
-    padding: 1rem;
-    background-color: white;
-    border: 1px solid black;
+    transition: 200ms;
 }
 
 .__item-hovered {
-    border-style: dashed !important;
-    border-color: rgb(100,100,255) !important;
-    background-color: rgba(100,100,255,0.08) !important;
-    transition: 100ms;
+    outline: 2px dashed rgb(100,100,255) !important;
+    background-color: rgb(243, 243, 255) !important;
 }
 
 .__invisible-bg {

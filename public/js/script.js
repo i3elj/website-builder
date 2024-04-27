@@ -1,21 +1,35 @@
 import './global.js'
 import * as drag from './drag.js'
 import * as html from './html_manipulation.js'
-import { contextmenu } from './context-menu.js'
+import { context_menu } from './context-menu.js'
 import * as editors from './editors.js'
 
 const body_observer = new MutationObserver((records, observer) => {
     const addedNode = records[0].addedNodes[0] ?? null
 
     if (addedNode != null) {
-        addedNode.ondragstart   = drag.start
-        addedNode.ondragenter   = drag.enter
-        addedNode.ondragleave   = drag.leave
-        addedNode.ondragover    = drag.over
-        addedNode.ondrop        = drag.drop
-        addedNode.oncontextmenu = contextmenu
+        addedNode.ondragstart    = drag.start
+        addedNode.ondragenter    = drag.enter
+        addedNode.ondragleave    = drag.leave
+        addedNode.ondragover     = drag.over
+        addedNode.ondrop         = drag.drop
+        addedNode.oncontextmenu = context_menu
     }
 })
+
+var spacer_active = 1;
+window.onkeydown = function(event) {
+    const items = Array.from(htmx.findAll('.__item'))
+    if (event.code == 'CapsLock') {
+        if (spacer_active) {
+            items.forEach(i => i.classList.remove('__spacer'))
+            spacer_active = 0
+        } else {
+            items.forEach(i => i.classList.add('__spacer'))
+            spacer_active = 1
+        }
+    }
+}
 
 const drop_root = htmx.find('#__tg-body')
 body_observer.observe(htmx.find('body'), {subtree: true, childList: true,})

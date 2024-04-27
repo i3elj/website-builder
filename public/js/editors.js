@@ -1,65 +1,68 @@
 import { get_tag_name, str_to_html } from './html_manipulation.js'
 
-const editors_wrapper = htmx.find('#__editors-wrapper');
-const html_editor_wrapper = htmx.find('#__html-wrapper');
-const css_editor_wrapper = htmx.find('#__css-wrapper');
+const edt_wrapper = htmx.find('#__editors-wrapper');
+const edt_html_wrapper = htmx.find('#__html-wrapper');
+const edt_css_wrapper = htmx.find('#__css-wrapper');
 
-// const css_close_btn = htmx.find('#__css-close-btn')
-// css_close_btn.onclick = deactivate_editors()
-
-const editor_options = {
+const edt_options = {
     theme: 'ace/theme/monokai',
     fontFamily: 'IBM Plex Mono',
     fontSize: '18pt'
 }
 
-export function html(element)
+export function html(target_el)
 {
     const editor = ace.edit('__html');
-    editor.setOptions(editor_options);
+    editor.setOptions(edt_options);
 
     // activation step
     (async () => {
-        const formatted_code = await prettier.format(element.outerHTML, {
+        const formatted_code = await prettier.format(target_el.outerHTML, {
             parser: 'html',
             plugins: prettierPlugins
         });
 
-        const html_session = ace.createEditSession(formatted_code);
-        editor.setSession(html_session);
+        const session = ace.createEditSession(formatted_code);
+        editor.setSession(session);
         editor.session.setMode('ace/mode/html');
 
-        editors_wrapper.style.display = 'flex';
-        html_editor_wrapper.style.display = 'flex';
+        edt_wrapper.style.display = 'flex';
+        edt_html_wrapper.style.display = 'flex';
 
         const title = htmx.find('#__html-titlebar p');
-        title.innerText = get_tag_name(element);
+        title.innerText = get_tag_name(target_el);
     })()
 
-    htmx.find('#__html-close-btn').onclick = deactivate_editors;
-    htmx.find('#__html-save-btn').onclick = (event) => {
+    const btn_close = htmx.find('#__html-close-btn')
+    const btn_save = htmx.find('#__html-save-btn')
+
+    btn_close.onclick = deactivate_editors;
+    btn_save.onclick = () => {
         const code = editor.getValue();
         const html_code = str_to_html(code);
-        element.replaceWith(html_code);
+        target_el.replaceWith(html_code);
     }
 }
 
-export function css(element)
+export function css(target_el)
 {
     const beautify = ace.require('ace/ext/beautify');
     const editor = ace.edit('__css');
 
-    editor.setOptions(editor_options);
+    editor.setOptions(edt_options);
 
-    const element_style_tag = find_or_create_style(element.dataset.id);
+    const target_el_style_tag = find_or_create_style(target_el.dataset.id);
 
     // activation step
+    const target_el_classes = Array.from(target_el.classList)
+                                   .filter(c => !c.startsWith('__'));
+
     (async () => {
         const global_style_tag = htmx.find('#__user-global-css');
         const global_styles = get_rules(
-            global_style_tag,
-            Array.from(element.classList)
-                 .filter(c => !c.startsWith('__'))
+            global_style_tag.textContent,
+            'class',
+            target_el_classes
         );
 
         const code = `
@@ -67,8 +70,8 @@ export function css(element)
             ${global_styles}
             /*- end -*/
 
-            /*- element styles -*/
-            ${element_style_tag.textContent}
+            /*- target_el styles -*/
+            ${target_el_style_tag.textContent}
             /*- end -*/
         `;
 
@@ -77,47 +80,45 @@ export function css(element)
             plugins: prettierPlugins
         });
 
-        const css_session = ace.createEditSession(formatted_code);
+        const session = ace.createEditSession(formatted_code);
 
-        editor.setSession(css_session);
+        editor.setSession(session);
         editor.session.setMode('ace/mode/css');
 
-        editors_wrapper.style.display = 'flex';
-        css_editor_wrapper.style.display = 'flex';
+        edt_wrapper.style.display = 'flex';
+        edt_css_wrapper.style.display = 'flex';
 
         const title = htmx.find('#__css-titlebar p');
+        title.innerText = get_tag_name(target_el)
 
-        title.innerText = get_tag_name(element)
+        if (target_el.id != "")
+            title.innerText += " #" + target_el.id;
 
-        if (element.id != "")
-            title.innerText += " #" + element.id;
-
-        var classlist = Array.from(element.classList)
+        var classlist = Array.from(target_el.classList)
                              .filter(c => !c.startsWith("__"));
         if (classlist.length != 0)
             title.innerText += " ." + classlist.join(" .");
-        })()
+    })()
 
-    htmx.find('#__css-close-btn').onclick = deactivate_editors;
-    htmx.find('#__css-save-btn').onclick = () => {
+    const btn_close = htmx.find('#__css-close-btn')
+    const btn_save = htmx.find('#__css-save-btn')
+
+    btn_close.onclick = deactivate_editors;
+    btn_save.onclick = () => {
         const code = editor.getValue();
-
-        const regex = /\/\*-.*([\s\S]*?)\/\*- end -\*\//gm;
-        const matches = [...code.matchAll(regex)];
-
-        const global_code = matches[0][1];
-        const local_code = matches[1][1];
-
-        htmx.find('#__user-global-css').innerHTML = global_code;
-        element_style_tag.innerHTML = local_code;
+        const css_class_rules = get_rules(code, 'class', target_el_classes);
+        const css_id_rules = get_rules(code, 'id', target_el.id);
+        const user_global_css = htmx.find('#__user-global-css');
+        user_global_css.innerHTML = css_class_rules;
+        target_el_style_tag.innerHTML = css_id_rules;
     }
 }
 
 function deactivate_editors(event)
 {
-    editors_wrapper.style.display = 'none';
-    html_editor_wrapper.style.display = 'none';
-    css_editor_wrapper.style.display = 'none';
+    edt_wrapper.style.display = 'none';
+    edt_html_wrapper.style.display = 'none';
+    edt_css_wrapper.style.display = 'none';
 }
 
 function find_or_create_style(id)
@@ -134,12 +135,13 @@ function find_or_create_style(id)
     return style;
 }
 
-function get_rules(element, classes)
+function get_rules(content, rule_type, match)
 {
-    const rules = element.textContent;
-    const class_regex = classes.join('|');
-    const regex_str = `.${class_regex}\\s{[\\s\\S]*?}`;
+    var regex_str = rule_type == 'id'
+                  ? `\\#[${match}][\\s\\S]*?}`
+                  : `\\.[${match.join('|')}][\\s\\S]*?}`;
+
     const regex = new RegExp(regex_str, 'gm');
-    const result = [...rules.matchAll(regex)];
+    const result = [...content.matchAll(regex)];
     return result.join('\n');
 }
