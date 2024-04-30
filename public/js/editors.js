@@ -77,7 +77,7 @@ export function cssClass(target_el, className)
     editor.setOptions(edt_options);
 
     const code = target_el.textContent
-                          .replace(/{|}|\.[A-Za-z ?]+/gm, '')
+                          .replace(/^.+? ?{|}/gm, '')
                           .replace(/;/gm,'\n');
     const session = ace.createEditSession(code);
     editor.setSession(session);
