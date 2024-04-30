@@ -5,7 +5,7 @@ const edt_html_wrapper = htmx.find('#__html-wrapper');
 const edt_css_wrapper = htmx.find('#__css-wrapper');
 
 const edt_options = {
-    theme: 'ace/theme/monokai',
+    theme: 'ace/theme/xcode',
     fontFamily: 'IBM Plex Mono',
     fontSize: '18pt'
 }
@@ -48,69 +48,52 @@ export function css(target_el)
 {
     const beautify = ace.require('ace/ext/beautify');
     const editor = ace.edit('__css');
-
     editor.setOptions(edt_options);
 
-    const target_el_style_tag = find_or_create_style(target_el.dataset.id);
+    var code = target_el.style.cssText.replace(/;[ ]?/g, '\n');
 
-    // activation step
-    const target_el_classes = Array.from(target_el.classList)
-                                   .filter(c => !c.startsWith('__'));
+    const session = ace.createEditSession(code);
+    editor.setSession(session);
+    editor.session.setMode('ace/mode/yaml');
 
-    (async () => {
-        const global_style_tag = htmx.find('#__user-global-css');
-        const global_styles = get_rules(
-            global_style_tag.textContent,
-            'class',
-            target_el_classes
-        );
-
-        const code = `
-            /*- global styles -*/
-            ${global_styles}
-            /*- end -*/
-
-            /*- target_el styles -*/
-            ${target_el_style_tag.textContent}
-            /*- end -*/
-        `;
-
-        const formatted_code = await prettier.format(code, {
-            parser: 'css',
-            plugins: prettierPlugins
-        });
-
-        const session = ace.createEditSession(formatted_code);
-
-        editor.setSession(session);
-        editor.session.setMode('ace/mode/css');
-
-        edt_wrapper.style.display = 'flex';
-        edt_css_wrapper.style.display = 'flex';
-
-        const title = htmx.find('#__css-titlebar p');
-        title.innerText = get_tag_name(target_el)
-
-        if (target_el.id != "")
-            title.innerText += " #" + target_el.id;
-
-        var classlist = Array.from(target_el.classList)
-                             .filter(c => !c.startsWith("__"));
-        if (classlist.length != 0)
-            title.innerText += " ." + classlist.join(" .");
-    })()
+    activateEditor(edt_css_wrapper);
+    setEditorTitle('css', target_el)
 
     const btn_close = htmx.find('#__css-close-btn')
     const btn_save = htmx.find('#__css-save-btn')
 
     btn_close.onclick = deactivate_editors;
     btn_save.onclick = () => {
-        const code = editor.getValue();
-        const css_class_rules = get_rules(code, 'class', target_el_classes);
-        const css_id_rules = get_rules(code, 'id', target_el.id);
-        const user_global_css = htmx.find('#__user-global-css');
-        user_global_css.innerHTML = css_class_rules;
-        target_el_style_tag.innerHTML = css_id_rules;
+        var code = editor.getValue();
+        code = code.replace(/\n/g, ';');
+        target_el.style = code;
+    }
+}
+
+export function cssClass(target_el, className)
+{
+    const beautify = ace.require('ace/ext/beautify');
+    const editor = ace.edit('__css');
+    editor.setOptions(edt_options);
+
+    const code = target_el.textContent
+                          .replace(/{|}|\.[A-Za-z ?]+/gm, '')
+                          .replace(/;/gm,'\n');
+    const session = ace.createEditSession(code);
+    editor.setSession(session);
+    editor.session.setMode('ace/mode/yaml');
+
+    activateEditor(edt_css_wrapper);
+    setEditorTitle('css', target_el)
+
+    const btn_close = htmx.find('#__css-close-btn')
+    const btn_save = htmx.find('#__css-save-btn')
+
+    btn_close.onclick = deactivate_editors;
+    btn_save.onclick = () => {
+        var code = editor.getValue();
+        code = code.replace(/\n/g, ';');
+        target_el.textContent = `${className} {${code}}`;
     }
 }
 
@@ -119,6 +102,23 @@ function deactivate_editors(event)
     edt_wrapper.style.display = 'none';
     edt_html_wrapper.style.display = 'none';
     edt_css_wrapper.style.display = 'none';
+}
+
+function activateEditor(localWrapper)
+{
+    edt_wrapper.style.display = 'flex';
+    localWrapper.style.display = 'flex';
+}
+
+function setEditorTitle(editorName, element)
+{
+    const title = htmx.find(`#__${editorName}-titlebar p`);
+    title.innerText = get_tag_name(element)
+
+    var classlist = Array.from(element.classList)
+                         .filter(c => !c.startsWith("__"));
+    if (classlist.length != 0)
+        title.innerText += " ." + classlist.join(" .");
 }
 
 function find_or_create_style(id)

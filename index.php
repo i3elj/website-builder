@@ -1,4 +1,4 @@
-<?php require_once './elemslist.php'; ?>
+<?php require_once 'elements-list.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -16,96 +16,43 @@
     </head>
 
     <body>
-        <!-- this should be used for every class-based css.
-             Every id-based css should be a separate <style/> for
-             that element/component all of them being added
-             after the beginning of the <body/> tag -->
-        <style id="__user-global-css"></style>
-
         <h1>Draggable elements</h1>
 
-        <div class="__main">
-            <aside>
-                <h2>Elements</h2>
+        <div id="__main">
+            <aside id="__menu-bar">
+                <details id="__elems-bar" class="__side-bar" open>
+                    <summary>
+                        <h2>Elements</h2>
+                    </summary>
 
-                <div id="__elems-list">
+                    <div id="__elems-list" class="__side-bar-items">
+                        <?php foreach ($tags as $tag) : ?>
+                            <div class="__elems-container">
+                                <div class="__og-drag"
+                                     draggable="true"
+                                     data-id="<?= $tag['tag-name'] ?>__og-drag">
+                                </div>
+                                <span><?= $tag['display-name'] ?></span>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
+                </details>
 
-                    <?php foreach ($tags as $tag) : ?>
-                        <div class="__elems-container">
-                            <div
-                                class="__og-drag"
-                                draggable="true"
-                                data-id="<?= $tag['tag-name'] ?>__og-drag"
-                            ></div>
-                            <span><?= $tag['display-name'] ?></span>
-                        </div>
-                    <?php endforeach ?>
-
-                </div>
+                <details id="__classes-bar" class="__side-bar">
+                    <summary><h2>Classes</h2></summary>
+                    <div id="__class-list" class="__side-bar-items"></div>
+                </details>
             </aside>
 
             <main id="__tg-body"></main>
         </div>
 
-        <div id="__ctx-menu-wrapper" class="__invisible-bg">
-            <div id="__ctx-menu">
-                <p id="__ctx-menu_tag">None</p>
-                <button><img src="/public/assets/delete-icon.svg">Delete</button>
-                <hr/>
-                <button><img src="/public/assets/code-icon.svg">Edit HTML</button>
-                <button><img src="/public/assets/brush-icon.svg">Edit Style</button>
-                <button><img src="/public/assets/tag-icon.svg">Add ID</button>
-                <button><img src="/public/assets/label-icon.svg">Add Class</button>
-            </div>
-        </div>
-
-        <div id="__editors-wrapper" class="__invisible-bg">
-            <div id="__html-wrapper" class="__editor-wrapper">
-                <div id="__html-titlebar" class="__editor-titlebar">
-                    <p>None</p>
-                    <div class="__titlebar-btns">
-                        <button id="__html-save-btn"
-                                class="__editor-btn __editor-save-btn">
-                            Save
-                        </button>
-                        <button id="__html-close-btn"
-                                class="__editor-btn __editor-close-btn">
-                            Close
-                        </button>
-                    </div>
-                </div>
-
-                <div id="__html" class="__editor"></div>
-            </div>
-
-            <div id="__css-wrapper" class="__editor-wrapper">
-                <div id="__css-titlebar" class="__editor-titlebar">
-                    <p>None</p>
-
-                    <div class="__titlebar-btns">
-                        <button id="__css-save-btn" class="__editor-btn __editor-save-btn">
-                            Save
-                        </button>
-                        <button id="__css-close-btn" class="__editor-btn __editor-close-btn">
-                            Close
-                        </button>
-                    </div>
-                </div>
-
-                <div id="__css" class="__editor"></div>
-            </div>
-        </div>
+        <?php require_once 'context-menu.php' ?>
+        <?php require_once 'editors.php' ?>
 
         <div id="__add-class-wrapper" class="__invisible-bg">
             <form>
                 <input type="text" placeholder="type your class name" />
-                <button type="submit">Add</button>
-            </form>
-        </div>
-
-        <div id="__add-id-wrapper" class="__invisible-bg">
-            <form>
-                <input type="text" placeholder="type some id" />
                 <button type="submit">Add</button>
             </form>
         </div>

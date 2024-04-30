@@ -19,6 +19,14 @@ body {
     min-width: 100vw;
 }
 
+details summary::-webkit-details-marker {
+  display:none;
+}
+
+details > summary:first-of-type {
+    list-style-type: none;
+}
+
 main * {
     width: fit-content;
 }
@@ -27,10 +35,9 @@ main * {
     padding: 1rem !important;
     border: 1px dashed rgb(100,100,255) !important;
     background-color: rgba(100,100,255,0.08) !important;
-    transition: 100ms;
 }
 
-.__main {
+#__main {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -39,33 +46,77 @@ main * {
     padding: .5rem;
 }
 
+details {
+    overflow-y: scroll;
+    min-height: 2rem;
+    min-width: 7rem;
+}
+
+details[open] {
+    overflow-y: hidden;
+}
+
 aside {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: .5rem;
     height: 90vh;
-    min-width: 10rem;
-    padding: 2rem;
+    min-width: max-content;
     border: 1px solid #787878;
     border-radius: .5rem;
     background-color: #fafafa;
-    overflow-y: scroll;
+}
+
+#__menu-bar {
+}
+
+.__menu-bar-option-wrapper {
+    width: 100%;
+}
+
+.__menu-bar-option-wrapper input[type="radio"] {
+    display: none;
+}
+
+.__menu-bar-option-wrapper label {
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    border-radius: .5rem;
+    transition: 200ms;
+    place-items: center;
+    text-align: center;
+}
+
+.__menu-bar-option-wrapper input[type="radio"]:checked + label {
+    background-color: rgba(0,0,0,0.05);
 }
 
 #__tg-body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
     width: 100%;
     max-height: 90vh;
     border: 1px dashed rgba(0, 0, 0, 0.24);
     overflow: scroll;
 }
 
+#__class-list,
 #__elems-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-width: 7rem;
+}
+
+.__side-bar-items {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#__search_container {
+    width: 100%;
+    min-height: 1rem;
+    border: 1px solid black;
 }
 
 .__elems-container {
@@ -77,15 +128,19 @@ aside {
     padding: 1rem;
 }
 
+.__elems-container span {
+    width: max-content;
+}
+
 .__og-drag {
-    min-height: 4rem;
-    min-width: 4rem;
-    border: 2px solid black;
-    border-radius: 8px;
+    min-height: 2rem;
+    min-width: 2rem;
+    border: 1px solid black;
+    border-radius: .5rem;
 }
 
 .__item {
-    transition: 200ms;
+    transition: 100ms !important;
 }
 
 .__item-hovered {
