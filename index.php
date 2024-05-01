@@ -19,13 +19,11 @@
         <h1>Draggable elements</h1>
 
         <div id="__main">
-            <aside id="__menu-bar">
-                <details id="__elems-bar" class="__side-bar" open>
-                    <summary>
-                        <h2>Elements</h2>
-                    </summary>
+            <aside>
+                <details open>
+                    <summary><h2>Elements</h2></summary>
 
-                    <div id="__elems-list" class="__side-bar-items">
+                    <div class="__sidebar-items">
                         <?php foreach ($tags as $tag) : ?>
                             <div class="__elems-container">
                                 <div class="__og-drag"
@@ -38,9 +36,9 @@
                     </div>
                 </details>
 
-                <details id="__classes-bar" class="__side-bar">
+                <details>
                     <summary><h2>Classes</h2></summary>
-                    <div id="__class-list" class="__side-bar-items"></div>
+                    <div id="__class-list" class="__sidebar-items"></div>
                 </details>
             </aside>
 
