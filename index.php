@@ -42,7 +42,18 @@
                 </details>
             </aside>
 
-            <main id="__tg-body"></main>
+            <style type="text/css" media="screen">
+             iframe * {
+                 padding: 0;
+                 margin: 0;
+             }
+             iframe body {
+                 width: 100%;
+                 height: 100%;
+             }
+            </style>
+
+            <iframe id="__tg-body"></iframe>
         </div>
 
         <?php require_once 'context-menu.php' ?>

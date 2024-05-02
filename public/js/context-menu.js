@@ -13,22 +13,21 @@ export function context_menu(event)
 {
     event.preventDefault()
 
-    const m_width = ctxm_menu.offsetWidth
-    const m_height = ctxm_menu.offsetHeight
-
-    const c_x = event.pageX
-    const c_y = event.pageY
-
-    var left = c_x + m_width >= window.innerWidth
-             ? c_x - m_width : c_x
-
-    var top = c_y + m_height >= window.innerHeight
-            ? c_y - m_height : c_y
-
-    ctxm_menu.style.left = `${left}px`
-    ctxm_menu.style.top = `${top}px`
-
     activate_menu(event)
+
+    const m_width = ctxm_menu.offsetWidth;
+    const m_height = ctxm_menu.offsetHeight;
+
+    var left = event.pageX + m_width >= window.innerWidth
+             ? event.pageX - m_width
+             : event.pageX;
+
+    var top = event.pageY + m_height >= window.innerHeight
+            ? event.pageY - m_height
+            : event.pageY;
+
+    ctxm_menu.style.left = `${left}px`;
+    ctxm_menu.style.top = `${top}px`;
 }
 
 function activate_menu(event)

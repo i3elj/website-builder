@@ -56,22 +56,25 @@ aside {
     gap: 1rem;
     padding: .5rem;
     height: 90vh;
-    min-width: 7rem;
     border: 1px solid #787878;
     border-radius: .5rem;
     background-color: #fafafa;
 }
 
-details summary::-webkit-details-marker {
-  display:none;
-}
-
-details > summary:first-of-type {
-    list-style-type: none;
-}
-
 details > summary {
+    display: flex;
+    place-items: center;
+    place-content: space-between;
     cursor: pointer;
+}
+
+details > summary:after {
+    content: url('/public/assets/section-closed.svg');
+    line-height: 0px;
+}
+
+details[open] > summary:after {
+    content: url('/public/assets/section-open.svg');
 }
 
 .__sidebar-items {

@@ -31,7 +31,7 @@ window.onkeydown = function(event) {
     }
 }
 
-const drop_root = htmx.find('#__tg-body')
+const drop_root = htmx.find('#__tg-body body')
 body_observer.observe(htmx.find('body'), {subtree: true, childList: true,})
 
 // configuration of every original draggable element

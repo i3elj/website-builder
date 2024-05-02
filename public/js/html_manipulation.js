@@ -110,27 +110,29 @@ export function addClass(element) {
             editBtn.textContent = '.' + className
             editBtn.onclick = (event) => {
                 editors.cssClass(
-                    htmx.find('style' + element.textContent),
-                    `.${className}`
-                )
+                    htmx.find('style' + editBtn.textContent),
+                    editBtn.textContent
+                );
             }
-            const deleteBtn = document.createElement('button')
-            const deleteIcon = document.createElement('img')
-            deleteIcon.src = '/public/assets/delete-icon.svg'
-            deleteBtn.appendChild(deleteIcon)
+            const deleteBtn = document.createElement('button');
+            const deleteIcon = document.createElement('img');
+            deleteIcon.src = '/public/assets/delete-icon.svg';
+            deleteBtn.appendChild(deleteIcon);
             deleteBtn.onclick = (event) => {
+                Array.from(htmx.findAll(`style.${className}`))
+                     .forEach(e => e.remove());
                 Array.from(htmx.findAll(`.${className}`))
                      .map(e => e.classList.remove(className));
-                div.remove()
+                div.remove();
             }
 
-            div.appendChild(editBtn)
-            div.appendChild(deleteBtn)
-            htmx.find('#__class-list').prepend(div)
+            div.appendChild(editBtn);
+            div.appendChild(deleteBtn);
+            htmx.find('#__class-list').prepend(div);
         }
 
-        ctx.deactivate_menu()
-        wrapper.style.display = 'none'
+        ctx.deactivate_menu();
+        wrapper.style.display = 'none';
     }
 
     const input = htmx.find('#__add-class-wrapper input')

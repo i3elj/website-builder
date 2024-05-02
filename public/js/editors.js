@@ -72,7 +72,6 @@ export function css(target_el)
 
 export function cssClass(target_el, className)
 {
-    const beautify = ace.require('ace/ext/beautify');
     const editor = ace.edit('__css');
     editor.setOptions(edt_options);
 
