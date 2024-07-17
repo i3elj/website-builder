@@ -1,146 +1,136 @@
-import { get_tag_name, str_to_html } from './html_manipulation.js'
+const editorWrapper = element("#__editors-wrapper");
+const editorHtmlWrapper = element("#__html-wrapper");
+const editorCssWrapper = element("#__css-wrapper");
 
-const edt_wrapper = htmx.find('#__editors-wrapper');
-const edt_html_wrapper = htmx.find('#__html-wrapper');
-const edt_css_wrapper = htmx.find('#__css-wrapper');
+const editorOptions = {
+    theme: "ace/theme/xcode",
+    fontFamily: "IBM Plex Mono",
+    fontSize: "18pt",
+};
 
-const edt_options = {
-    theme: 'ace/theme/xcode',
-    fontFamily: 'IBM Plex Mono',
-    fontSize: '18pt'
-}
+function editors_html(target) {
+    const editor = ace.edit("__html");
+    editor.setOptions(editorOptions);
 
-export function html(target_el)
-{
-    const editor = ace.edit('__html');
-    editor.setOptions(edt_options);
-
-    // activation step
     (async () => {
-        const formatted_code = await prettier.format(target_el.outerHTML, {
-            parser: 'html',
-            plugins: prettierPlugins
+        const formatted_code = await prettier.format(target.outerHTML, {
+            parser: "html",
+            plugins: prettierPlugins,
         });
 
         const session = ace.createEditSession(formatted_code);
         editor.setSession(session);
-        editor.session.setMode('ace/mode/html');
+        editor.session.setMode("ace/mode/html");
 
-        edt_wrapper.style.display = 'flex';
-        edt_html_wrapper.style.display = 'flex';
+        editorWrapper.style.display = "flex";
+        editorHtmlWrapper.style.display = "flex";
 
-        const title = htmx.find('#__html-titlebar p');
-        title.innerText = get_tag_name(target_el);
-    })()
+        const title = element("#__html-titlebar p");
+        title.innerText = html_getTagName(target);
+    })();
 
-    const btn_close = htmx.find('#__html-close-btn')
-    const btn_save = htmx.find('#__html-save-btn')
+    const btn_close = element("#__html-close-btn");
+    const btn_save = element("#__html-save-btn");
 
     btn_close.onclick = deactivate_editors;
     btn_save.onclick = () => {
         const code = editor.getValue();
-        const html_code = str_to_html(code);
-        target_el.replaceWith(html_code);
-    }
+        const html_code = html_strToHtml(code);
+        target.replaceWith(html_code);
+    };
 }
 
-export function css(target_el)
-{
-    const beautify = ace.require('ace/ext/beautify');
-    const editor = ace.edit('__css');
-    editor.setOptions(edt_options);
+function editors_css(target) {
+    const beautify = ace.require("ace/ext/beautify");
+    const editor = ace.edit("__css");
+    editor.setOptions(editorOptions);
 
-    var code = target_el.style.cssText.replace(/;[ ]?/g, '\n');
+    var code = target.style.cssText.replace(/;[ ]?/g, "\n");
 
     const session = ace.createEditSession(code);
     editor.setSession(session);
-    editor.session.setMode('ace/mode/yaml');
+    editor.session.setMode("ace/mode/yaml");
 
-    activateEditor(edt_css_wrapper);
-    setEditorTitle('css', target_el)
+    activateEditor(editorCssWrapper);
+    setEditorTitle("css", target);
 
-    const btn_close = htmx.find('#__css-close-btn')
-    const btn_save = htmx.find('#__css-save-btn')
+    const btn_close = element("#__css-close-btn");
+    const btn_save = element("#__css-save-btn");
 
     btn_close.onclick = deactivate_editors;
     btn_save.onclick = () => {
         var code = editor.getValue();
-        code = code.replace(/\n/g, ';');
-        target_el.style = code;
-    }
+        code = code.replace(/\n/g, ";");
+        target.style = code;
+    };
 }
 
-export function cssClass(target_el, className)
-{
-    const editor = ace.edit('__css');
-    editor.setOptions(edt_options);
+function editors_cssClass(target, className) {
+    const editor = ace.edit("__css");
+    editor.setOptions(editorOptions);
 
-    const code = target_el.textContent
-                          .replace(/^.+? ?{|}/gm, '')
-                          .replace(/;/gm,'\n');
+    const code = target.textContent
+                          .replace(/^.+? ?{|}/gm, "")
+                          .replace(/;/gm, "\n");
     const session = ace.createEditSession(code);
     editor.setSession(session);
-    editor.session.setMode('ace/mode/yaml');
+    editor.session.setMode("ace/mode/yaml");
 
-    activateEditor(edt_css_wrapper);
-    setEditorTitle('css', target_el)
+    activateEditor(editorCssWrapper);
+    setEditorTitle("css", target);
 
-    const btn_close = htmx.find('#__css-close-btn')
-    const btn_save = htmx.find('#__css-save-btn')
+    const btn_close = element("#__css-close-btn");
+    const btn_save = element("#__css-save-btn");
 
     btn_close.onclick = deactivate_editors;
     btn_save.onclick = () => {
         var code = editor.getValue();
-        code = code.replace(/\n/g, ';');
-        target_el.textContent = `${className} {${code}}`;
-    }
+        code = code.replace(/\n/g, ";");
+        target.textContent = `${className} {${code}}`;
+    };
 }
 
-function deactivate_editors(event)
-{
-    edt_wrapper.style.display = 'none';
-    edt_html_wrapper.style.display = 'none';
-    edt_css_wrapper.style.display = 'none';
+function deactivate_editors(event) {
+    editorWrapper.style.display = "none";
+    editorHtmlWrapper.style.display = "none";
+    editorCssWrapper.style.display = "none";
 }
 
-function activateEditor(localWrapper)
-{
-    edt_wrapper.style.display = 'flex';
-    localWrapper.style.display = 'flex';
+function activateEditor(localWrapper) {
+    editorWrapper.style.display = "flex";
+    localWrapper.style.display = "flex";
 }
 
-function setEditorTitle(editorName, element)
-{
-    const title = htmx.find(`#__${editorName}-titlebar p`);
-    title.innerText = get_tag_name(element)
+function setEditorTitle(editorName, element) {
+    const title = element(`#__${editorName}-titlebar p`);
+    title.innerText = html_getTagName(element);
 
-    var classlist = Array.from(element.classList)
-                         .filter(c => !c.startsWith("__"));
-    if (classlist.length != 0)
-        title.innerText += " ." + classlist.join(" .");
+    var classlist = Array.from(element.classList).filter(
+        (c) => !c.startsWith("__"),
+    );
+    if (classlist.length != 0) title.innerText += " ." + classlist.join(" .");
 }
 
-function find_or_create_style(id)
-{
-    var style = htmx.find('style#' + id);
+function find_or_create_style(id) {
+    var style = element("style#" + id);
 
     if (style == null) {
-        style = document.createElement('style');
+        style = document.createElement("style");
         style.id = id;
-        const body = htmx.find('body');
+        const body = element("body");
         body.insertBefore(style, body.firstChild);
     }
 
     return style;
 }
 
-function get_rules(content, rule_type, match)
-{
-    var regex_str = rule_type == 'id'
-                  ? `\\#[${match}][\\s\\S]*?}`
-                  : `\\.[${match.join('|')}][\\s\\S]*?}`;
+function get_rules(content, rule_type, match) {
+    var regex_str =
+        rule_type == "id"
+        ? `\\#[${match}][\\s\\S]*?}`
+        : `\\.[${match.join("|")}][\\s\\S]*?}`;
 
-    const regex = new RegExp(regex_str, 'gm');
+    const regex = new RegExp(regex_str, "gm");
     const result = [...content.matchAll(regex)];
-    return result.join('\n');
+    return result.join("\n");
 }

@@ -5,5 +5,13 @@ const define = (name, value) => Object.defineProperty(window, name, {
 
 define(
     'OGLIST',
-    Array.from(htmx.findAll('.__og-drag')).map(e => e.dataset.id)
+    Array.from(document.querySelectorAll('.__og-drag')).map(e => e.dataset.id)
 )
+
+function element(query) {
+    return document.querySelector(query)
+}
+
+function elements(query) {
+    return document.querySelectorAll(query)
+}

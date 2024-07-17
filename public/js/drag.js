@@ -1,34 +1,32 @@
-import * as html from './html_manipulation.js'
-
-export function start(event) {
+function dragStart(event) {
     console.log('configuring drag start')
     event.dataTransfer.clearData()
     event.dataTransfer.setData('text/plain', event.target.dataset.id)
 }
 
-export function enter(event) {
+function dragEnter(event) {
     event.preventDefault()
     event.target.classList.add('__item-hovered')
 }
 
-export function leave(event) {
+function dragLeave(event) {
     event.preventDefault()
     event.target.classList.remove('__item-hovered')
 }
 
-export function over(event) {
+function dragOver(event) {
     event.preventDefault()
 }
 
-export function drop(event) {
+function dragDrop(event) {
     const element = event.target
     event.stopPropagation()
     event.target.classList.remove('__item-hovered')
     const emitter_id = event.dataTransfer.getData('text/plain')
-    const emitter = htmx.find(`[data-id="${emitter_id}"]`)
+    const emitter = find(`[data-id="${emitter_id}"]`)
 
     if (OGLIST.includes(emitter_id)) {
-        const clone = html.clone(emitter)
+        const clone = html_clone(emitter)
         console.log(`clonning ${emitter_id}:(${clone.id}) to ${element.dataset.id}`)
         element.appendChild(clone)
     } else {

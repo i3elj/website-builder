@@ -13,6 +13,7 @@ body {
     flex-direction: column;
     place-items: center;
     min-width: 100vw;
+    background-color: rgba(0,0,0,0.025);
 }
 
 #__main {
@@ -43,6 +44,7 @@ button {
 details {
     overflow-y: scroll;
     min-height: 2rem;
+    transition: 200ms;
 }
 
 details[open] {
@@ -120,7 +122,9 @@ details[open] > summary:after {
 #__tg-body {
     width: 100%;
     max-height: 90vh;
-    border: 1px dashed rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    border-radius: 16px;
+    background-color: white;
     overflow: scroll;
 }
 
@@ -147,7 +151,7 @@ details[open] > summary:after {
     box-shadow: -3px 3px 7px 0 rgba(0,0,0,0.15);
 }
 
-#__ctx-menu_tag {
+#__ctx-menu-title {
     font-family: monospace;
     text-wrap: nowrap;
     text-overflow: ellipsis;
@@ -155,9 +159,9 @@ details[open] > summary:after {
     position: absolute;
     top: -3rem;
     border: 1px solid black;
-    border-radius: 4px;
     background-color: #fafafa;
     overflow: hidden;
+    box-shadow: -3px 3px 7px 0 rgba(0,0,0,0.15);
 }
 
 #__ctx-menu hr {
@@ -166,12 +170,12 @@ details[open] > summary:after {
     border-top: 1px solid black;
 }
 
-#__ctx-menu button,
+.__ctx-menu-button,
 #__ctx-menu p {
     padding: .5rem 1rem;
 }
 
-#__ctx-menu button {
+.__ctx-menu-button {
     display: flex;
     place-items: center;
     text-align: left;
@@ -180,14 +184,49 @@ details[open] > summary:after {
     transition: 200ms;
 }
 
-#__ctx-menu button:hover {
+.__ctx-menu-button:hover {
     background-color: #f0f0f0;
 }
 
-#__ctx-menu button img {
+.__ctx-menu-button img {
     font-size: 1.25rem;
     margin-right: 1rem;
 }
+
+#__ctx-menu > details > summary {
+    padding: .5rem;
+}
+
+#__ctx-menu > details > summary:after {
+    content: url('/public/assets/section-open.svg');
+}
+
+#__ctx-menu > details[open] > summary:after {
+    content: url('/public/assets/section-closed.svg');
+}
+
+#__ctx-menu > details > div {
+    position: absolute;
+    transform: translate(140px, -40px);
+    background-color: #fafafa;
+    border: 1px solid black;
+    box-shadow: -3px 3px 7px 0 rgba(0,0,0,0.15);
+}
+
+.__ctx-menu-classes-btns {
+    display: flex;
+    place-items: center;
+    place-content: space-between;
+}
+
+.__ctx-menu-classes-btns > .__ctx-menu-button {
+    padding: .5rem;
+}
+
+.__ctx-menu-classes-btns > .__ctx-menu-button > img {
+    margin: 0;
+}
+
 
 #__editors-wrapper {
     display: none;

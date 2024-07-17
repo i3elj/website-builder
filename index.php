@@ -1,14 +1,25 @@
-<?php require_once 'elements-list.php'; ?>
+<?php require_once "src/components/elements-list.php"; ?>
 
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/public/css/style.css" type="text/css" media="screen" />
-        <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+
+        <!-- prettier -->
         <script src="https://unpkg.com/prettier@3.2.5/standalone.js"></script>
         <script src="https://unpkg.com/prettier@3.2.5/plugins/html.js"></script>
-        <script src="https://unpkg.com/prettier@3.2.5/plugins/postcss.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.8/ace.min.js"></script>
+
+        <!-- ace editor -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.8/ace.min.js"></script> -->
+        <script defer type="text/javascript" src="/public/js/lib/ace/ace.js"></script>
+        <script defer type="text/javascript" src="/public/js/global.js"></script>
+        <script defer type="text/javascript" src="/public/js/drag.js"></script>
+        <script defer type="text/javascript" src="/public/js/context-menu.js"></script>
+        <script defer type="text/javascript" src="/public/js/editors.js"></script>
+        <script defer type="text/javascript" src="/public/js/html.js"></script>
+        <script defer type="text/javascript" src="/public/js/main.js"></script>
+
         <!-- fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,19 +31,19 @@
 
         <div id="__main">
             <aside>
-                <details open>
+                <details>
                     <summary><h2>Elements</h2></summary>
 
                     <div class="__sidebar-items">
-                        <?php foreach ($tags as $tag) : ?>
+                        <?php foreach ($tags as $tag): ?>
                             <div class="__elems-container">
                                 <div class="__og-drag"
                                      draggable="true"
-                                     data-id="<?= $tag['tag-name'] ?>__og-drag">
+                                     data-id="<?= $tag["tag-name"] ?>__og-drag">
                                 </div>
-                                <span><?= $tag['display-name'] ?></span>
+                                <span><?= $tag["display-name"] ?></span>
                             </div>
-                        <?php endforeach ?>
+                        <?php endforeach; ?>
                     </div>
                 </details>
 
@@ -42,22 +53,11 @@
                 </details>
             </aside>
 
-            <style type="text/css" media="screen">
-             iframe * {
-                 padding: 0;
-                 margin: 0;
-             }
-             iframe body {
-                 width: 100%;
-                 height: 100%;
-             }
-            </style>
-
-            <iframe id="__tg-body"></iframe>
+            <main id="__tg-body"></main>
         </div>
 
-        <?php require_once 'context-menu.php' ?>
-        <?php require_once 'editors.php' ?>
+        <?php require_once "src/components/context-menu.php"; ?>
+        <?php require_once "src/components/editors.php"; ?>
 
         <div id="__add-class-wrapper" class="__invisible-bg">
             <form>
@@ -66,6 +66,4 @@
             </form>
         </div>
     </body>
-
-    <script type="module" src="/public/js/script.js"></script>
 </html>
