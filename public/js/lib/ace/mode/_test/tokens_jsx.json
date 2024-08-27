@@ -1,0 +1,62 @@
+[[
+   "start",
+  ["keyword","import"],
+  ["text"," "],
+  ["keyword.operator","*"],
+  ["text"," "],
+  ["identifier","as"],
+  ["text"," "],
+  ["identifier","React"],
+  ["text"," "],
+  ["keyword","from"],
+  ["text"," "],
+  ["string","\"react\""],
+  ["punctuation.operator",";"]
+],[
+   "start"
+],[
+   "start",
+  ["keyword","export"],
+  ["text"," "],
+  ["keyword","default"],
+  ["text"," "],
+  ["paren.lparen","("],
+  ["paren.rparen",")"],
+  ["text"," "],
+  ["storage.type","=>"],
+  ["text"," "],
+  ["paren.lparen","{"]
+],[
+   "start",
+  ["text","  "],
+  ["keyword","return"],
+  ["text"," "],
+  ["paren.lparen","("]
+],[
+   ["jsx",1],
+  ["text","    "],
+  ["meta.tag.punctuation.tag-open.xml","<"],
+  ["meta.tag.tag-name.xml","div"],
+  ["text.tag-whitespace.xml"," "],
+  ["entity.other.attribute-name.xml","variant"],
+  ["keyword.operator.attribute-equals.xml","="],
+  ["string.attribute-value.xml","\"p\""],
+  ["meta.tag.punctuation.tag-close.xml",">"]
+],[
+   ["jsx",1],
+  ["string.xml","      Keywords here are not highlighted, for example class or instance."]
+],[
+   "start",
+  ["string.xml","    "],
+  ["meta.tag.punctuation.end-tag-open.xml","</"],
+  ["meta.tag.tag-name.xml","div"],
+  ["meta.tag.punctuation.tag-close.xml",">"]
+],[
+   "start",
+  ["text","  "],
+  ["paren.rparen",")"],
+  ["punctuation.operator",";"]
+],[
+   "no_regex",
+  ["paren.rparen","}"]
+]]
